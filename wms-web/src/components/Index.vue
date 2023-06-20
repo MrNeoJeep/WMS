@@ -5,7 +5,7 @@
     </el-aside>
 
     <el-container style="height: 100%;">
-      <el-header style="text-align: right; font-size: 12px;height: 100%;">
+      <el-header style="text-align: right; font-size: 12px;height: 100%; border-bottom: #b2b0b0 1px solid">
         <Header></Header>
       </el-header>
 
@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
   .el-header {
-    background-color: #B3C0D1;
+    /*background-color: #B3C0D1;*/
     color: #333;
     line-height: 60px;
   }
