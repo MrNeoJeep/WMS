@@ -9,6 +9,6 @@ spring:
     password: root
 
 
-#Logging:
-#  level:
-#    com.wms: debug
+Logging:
+  level:
+    com.wms: debug

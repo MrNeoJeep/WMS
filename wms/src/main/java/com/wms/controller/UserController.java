@@ -42,45 +42,46 @@ public class UserController {
     public String hello(){
         return "hello";
     }
-//    @GetMapping("/findByNo")
-//    public Result findByNo(@RequestParam String no){
-//        List list = userService.lambdaQuery().eq(User::getNo,no).list();
-//        return list.size()>0?Result.suc(list):Result.fail();
-//    }
-//    //新增
-//    @PostMapping("/save")
-//    public Result save(@RequestBody User user){
-//        return userService.save(user)?Result.suc():Result.fail();
-//    }
-//    //更新
-//    @PostMapping("/update")
-//    public Result update(@RequestBody User user){
-//        return userService.updateById(user)?Result.suc():Result.fail();
-//    }
-//    //删除
-//    @GetMapping("/del")
-//    public Result del(@RequestParam String id){
-//        return userService.removeById(id)?Result.suc():Result.fail();
-//    }
-//
-//    //登录
-//    @PostMapping("/login")
-//    public Result login(@RequestBody User user){
-//        List list = userService.lambdaQuery()
-//                .eq(User::getNo,user.getNo())
-//                .eq(User::getPassword,user.getPassword()).list();
-//
-//
-//        if(list.size()>0){
-//            User user1 = (User)list.get(0);
-//            List menuList = menuService.lambdaQuery().like(Menu::getMenuright,user1.getRoleId()).list();
-//            HashMap res = new HashMap();
-//            res.put("user",user1);
-//            res.put("menu",menuList);
-//            return Result.suc(res);
-//        }
-//        return Result.fail();
-//    }
+    @GetMapping("/findByNo")
+    public Result findByNo(@RequestParam String no){
+        List list = userService.lambdaQuery().eq(User::getNo,no).list();
+        return list.size() > 0 ? Result.suc(list) : Result.fail();
+    }
+    //新增
+    @PostMapping("/save")
+    public Result save(@RequestBody User user){
+        return userService.save(user)?Result.suc():Result.fail();
+    }
+    //更新
+    @PostMapping("/update")
+    public Result update(@RequestBody User user){
+        return userService.updateById(user)?Result.suc():Result.fail();
+    }
+    //删除
+    @GetMapping("/del")
+    public Result del(@RequestParam String id){
+        return userService.removeById(id)?Result.suc():Result.fail();
+    }
+
+    //登录
+    @PostMapping("/login")
+    public Result login(@RequestBody User user){
+        //TODO MD5加密验证
+        List list = userService.lambdaQuery()
+                .eq(User::getNo,user.getNo())
+                .eq(User::getPassword,user.getPassword()).list();
+
+
+        if(list.size()>0){
+            User user1 = (User)list.get(0);
+            List menuList = menuService.lambdaQuery().like(Menu::getMenuRight,user1.getRoleId()).list();
+            HashMap res = new HashMap();
+            res.put("user",user1);
+            res.put("menu",menuList);
+            return Result.suc(res);
+        }
+        return Result.fail();
+    }
 
     //修改
     @PostMapping("/mod")
@@ -142,8 +143,10 @@ public class UserController {
         String name = (String)param.get("name");
         String sex = (String)param.get("sex");
         String roleId = (String)param.get("roleId");
-        System.out.println("sex = "+sex);
+
         System.out.println("name = "+name);
+        System.out.println("sex = "+sex);
+
         Page<User> page = new Page();
         page.setCurrent(query.getPageNum());
         page.setSize(query.getPageSize());
@@ -159,7 +162,7 @@ public class UserController {
             lambdaQueryWrapper.eq(User::getRoleId,roleId);
         }
 
-//        IPage result = userService.pageC(page);
+        //IPage result = userService.pageC(page);
         IPage result = userService.pageCC(page,lambdaQueryWrapper);
 
         System.out.println("total=="+result.getTotal());
