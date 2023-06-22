@@ -2,9 +2,10 @@
     <div class="loginBody">
         <div class="loginDiv">
             <div class="login-content">
-                <h1 class="login-title">用户登录</h1>
+              <h1 style="text-align: center">仓库管理系统</h1>
+                <h2 class="login-title">用户登录</h2>
                 <el-form :model="loginForm" label-width="100px"
-                         :rules="rules" ref="loginForm">
+                         :rules="rules" ref="loginForm" >
                     <el-form-item label="账号" prop="no">
                         <el-input style="width: 200px" type="text" v-model="loginForm.no"
                                   autocomplete="off" size="small"></el-input>
@@ -13,8 +14,9 @@
                         <el-input style="width: 200px" type="password" v-model="loginForm.password"
                                   show-password autocomplete="off" size="small" @keyup.enter.native="confirm"></el-input>
                     </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="confirm" :disabled="confirm_disabled">确 定</el-button>
+                    <el-form-item style="margin-left: 30px">
+                        <el-button  type="primary" @click="confirm" :disabled="confirm_disabled">登 录</el-button>
+                        <el-button  type="primary" @click="resetForm" :disabled="confirm_disabled">重 置</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -44,7 +46,9 @@
             }
         },
         methods:{
-
+          resetForm(){
+            this.$refs.loginForm.resetFields();
+          },
             confirm(){
                 this.confirm_disabled=true;
                 this.$refs.loginForm.validate((valid) => {
@@ -57,7 +61,7 @@
                                 sessionStorage.setItem("CurUser",JSON.stringify(res.data.user))
 
                                 console.log(res.data.menu)
-                                // this.$store.commit("setMenu",res.data.menu)
+                                this.$store.commit("setMenu",res.data.menu)
                                 //跳转到主页
                                 this.$router.replace('/Index');
                             }else{

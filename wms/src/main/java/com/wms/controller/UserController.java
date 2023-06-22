@@ -137,6 +137,7 @@ public class UserController {
         return result.getRecords();
     }
 
+    //分页查询
     @PostMapping("/listPageC1")
     public Result listPageC1(@RequestBody QueryPageParam query){
         HashMap param = query.getParam();
