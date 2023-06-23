@@ -1,5 +1,6 @@
 package com.wms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,8 +32,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.pageC(page);
     }
     @Override
-    public IPage pageCC(Page<User> page, LambdaQueryWrapper<User> lambdaQueryWrapper) {
-        return userMapper.pageCC(page,lambdaQueryWrapper);
+    public IPage pageCC(Page<User> page, Wrapper wrapper) {
+        return userMapper.pageCC(page,wrapper);
     }
 
 

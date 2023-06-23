@@ -1,5 +1,6 @@
 package com.wms.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,7 +17,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
-    IPage pageCC(Page<User> page, LambdaQueryWrapper<User> lambdaQueryWrapper);
+    IPage pageCC(Page<User> page, Wrapper wrapper);
 
     IPage pageC(Page<User> page);
 }
