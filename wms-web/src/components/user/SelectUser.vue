@@ -234,7 +234,7 @@
             doSave(){
                 this.$axios.post(this.$httpUrl+'/user/save',this.form).then(res=>res.data).then(res=>{
                     console.log(res)
-                    if(res.code==200){
+                    if(res.code===200){
 
                         this.$message({
                             message: '操作成功！',
@@ -309,6 +309,7 @@
                 this.sex=''
             },
             selectCurrentChange(val) {
+                //把数据提交到上一层
                 //this.currentRow = val;
                 this.$emit("doSelectUser",val)
             },

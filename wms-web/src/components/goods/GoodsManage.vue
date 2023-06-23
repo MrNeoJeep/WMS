@@ -3,7 +3,7 @@
         <div style="margin-bottom: 5px;">
             <el-input v-model="name" placeholder="请输入物品名" suffix-icon="el-icon-search" style="width: 200px;"
                       @keyup.enter.native="loadPost"></el-input>
-            <el-select v-model="storage" placeholder="请选择仓库" style="margin-left: 5px;">
+            <el-select v-model="storage" placeholder="请选择仓库" style="  margin-left: 5px;">
                 <el-option
                         v-for="item in storageData"
                         :key="item.id"
@@ -214,8 +214,9 @@
                     goodsname:'',
                     count:'',
                     username:'',
-                    userid:'',
+                    userId:'',
                     adminId:'',
+                    createtime:'',
                     remark:'',
                     action:'1'
                 },
@@ -246,8 +247,10 @@
                 this.tempUser = val
             },
             confirmUser(){
+                console.log(this.tempUser.name)
+                console.log(this.tempUser.id)
                 this.form1.username = this.tempUser.name
-                this.form1.userid = this.tempUser.id
+                this.form1.userId = this.tempUser.id
 
                 this.innerVisible = false
             },
@@ -256,14 +259,14 @@
             },
             formatStorage(row){
                 let temp =  this.storageData.find(item=>{
-                    return item.id == row.storage
+                    return item.id === row.storage
                 })
 
                 return temp && temp.name
             },
             formatGoodsType(row){
                 let temp =  this.goodsTypeData.find(item=>{
-                    return item.id == row.goodsType
+                    return item.id === row.goodsType
                 })
 
                 return temp && temp.name
@@ -319,7 +322,11 @@
             },
             inGoods(){
                 if(!this.currentRow.id){
-                    alert('请选择记录');
+                    // alert('请选择记录');
+                    this.$message({
+                      message: '请选择记录',
+                      type: 'warning'
+                    });
                     return;
                 }
                 this.inDialogVisible = true
@@ -334,7 +341,11 @@
             },
             outGoods(){
                 if(!this.currentRow.id){
-                    alert('请选择记录');
+                    // alert('请选择记录');
+                    this.$message({
+                      message: '请选择记录',
+                      type: 'warning'
+                    });
                     return;
                 }
                 this.inDialogVisible = true
@@ -362,7 +373,7 @@
                         });
                         this.centerDialogVisible = false
                         this.loadPost()
-                        this. resetForm()
+                        this.resetForm()
                     }else{
                         this.$message({
                             message: '操作失败！',
@@ -411,7 +422,7 @@
             doInGoods(){
                 this.$axios.post(this.$httpUrl+'/record/save',this.form1).then(res=>res.data).then(res=>{
                     console.log(res)
-                    if(res.code==200){
+                    if(res.code===200){
 
                         this.$message({
                             message: '操作成功！',
@@ -419,7 +430,7 @@
                         });
                         this.inDialogVisible = false
                         this.loadPost()
-                        this. resetInForm()
+                        this.resetInForm()
                     }else{
                         this.$message({
                             message: '操作失败！',

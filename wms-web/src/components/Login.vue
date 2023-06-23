@@ -57,22 +57,29 @@
                         this.$axios.post(this.$httpUrl+'/user/login',this.loginForm).then(res=>res.data).then(res=>{
                             console.log(res)
                             if(res.code===200){
+                                this.$message({
+                                  message: '登录成功！',
+                                  type: 'success'
+                                });
                                 //存储
                                 sessionStorage.setItem("CurUser",JSON.stringify(res.data.user))
 
                                 console.log(res.data.menu)
                                 this.$store.commit("setMenu",res.data.menu)
+
                                 //跳转到主页
                                 this.$router.replace('/Index');
                             }else{
                                 this.confirm_disabled=false;
-                                alert('校验失败，用户名或密码错误！');
+                                // alert('校验失败，用户名或密码错误！');
+                                this.$message.error("校验失败，用户名或密码错误！")
                                 return false;
                             }
                         });
                     } else {
                         this.confirm_disabled=false;
-                        console.log('校验失败');
+                        // console.log('校验失败');
+                        this.$message.error("校验失败")
                         return false;
                     }
                 });
