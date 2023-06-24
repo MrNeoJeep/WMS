@@ -18,11 +18,18 @@
     <sql id="Base_Column_List">
         id, no, name, password, age, sex, phone, role_id, isValid
     </sql>
-    <select id="pageC" resultType="com.wms.entity.User">
-        select * from user
-    </select>
 
     <select id="pageCC" resultType="com.wms.entity.User">
-        select * from user ${ew.customSqlSegment}
+        SELECT
+            user.id,
+            user.no,
+            user.name,
+            user.age,
+            user.sex,
+            user.phone,
+            user.role_id,
+            user.isValid
+        FROM
+            user ${ew.customSqlSegment}
     </select>
 </mapper>

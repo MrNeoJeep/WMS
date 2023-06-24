@@ -19,5 +19,4 @@ public interface UserService extends IService<User> {
 
     IPage pageCC(Page<User> page, Wrapper wrapper);
 
-    IPage pageC(Page<User> page);
 }

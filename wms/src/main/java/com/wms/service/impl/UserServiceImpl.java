@@ -26,11 +26,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private UserMapper userMapper;
-
-    @Override
-    public IPage pageC(Page<User> page) {
-        return userMapper.pageC(page);
-    }
     @Override
     public IPage pageCC(Page<User> page, Wrapper wrapper) {
         return userMapper.pageCC(page,wrapper);

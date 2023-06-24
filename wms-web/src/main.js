@@ -8,6 +8,7 @@ import VueRouter from "vue-router";
 import router from "@/router";
 import store from "@/store";
 
+
 //添加axios，处理请求
 Vue.prototype.$axios = axios;
 //设置全局请求

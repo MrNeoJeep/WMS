@@ -18,7 +18,5 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
-    IPage pageC(IPage<User> page);
-
     IPage pageCC(IPage<User> page, @Param(Constants.WRAPPER) Wrapper wrapper);
 }

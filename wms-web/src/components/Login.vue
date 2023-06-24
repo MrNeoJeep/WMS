@@ -4,15 +4,18 @@
             <div class="login-content">
               <h1 style="text-align: center">仓库管理系统</h1>
                 <h2 class="login-title">用户登录</h2>
+
                 <el-form :model="loginForm" label-width="100px"
                          :rules="rules" ref="loginForm" >
                     <el-form-item label="账号" prop="no">
                         <el-input style="width: 200px" type="text" v-model="loginForm.no"
-                                  autocomplete="off" size="small"></el-input>
+                                  autocomplete="off" size="small" prefix-icon="el-icon-s-custom"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
                         <el-input style="width: 200px" type="password" v-model="loginForm.password"
-                                  show-password autocomplete="off" size="small" @keyup.enter.native="confirm"></el-input>
+                                  show-password autocomplete="off" size="small"
+                                  prefix-icon="el-icon-lock"
+                                  @keyup.enter.native="confirm"></el-input>
                     </el-form-item>
                     <el-form-item style="margin-left: 30px">
                         <el-button  type="primary" @click="confirm" :disabled="confirm_disabled">登 录</el-button>

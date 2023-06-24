@@ -11,19 +11,109 @@
       <i class="el-icon-s-custom" style="margin-left: 10px"></i>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item @click.native="toUser">个人中心</el-dropdown-item>
+        <el-dropdown-item @click.native="EditPwd">修改密码</el-dropdown-item>
         <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
+
+    <!--修改密码表单-->
+    <el-dialog
+        title="修改密码"
+        :visible.sync="centerDialogVisible"
+        width="30%"
+        center>
+
+      <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+        <el-form-item label="原密码" prop="oldPassword">
+          <el-input
+              type="password"
+              show-password
+              auto-complete="off"
+              placeholder="请输入原密码"
+              v-model="form.oldPassword"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="password">
+          <el-input
+              type="password"
+              show-password
+              auto-complete="off"
+              placeholder="请设置新密码"
+              v-model="form.password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="password2">
+          <el-input
+              type="password"
+              show-password
+              auto-complete="off"
+              placeholder="请确认新密码"
+              v-model="form.password2"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="saveMod">确 定</el-button>
+  </span>
+    </el-dialog>
 
   </div>
 </template>
 
 <script>
+import md5 from 'js-md5';
 export default {
   name: "Header",
   data(){
+    let checkPassword = (rule,value,callback)=>{
+      this.form.id = this.user.id
+      this.form.no = this.user.no
+      this.form.oldPassword = value
+      this.$axios.get(this.$httpUrl+"/user/findByNo?no="+this.form.no).then(res=>res.data).then(res=>{
+        console.log(res)
+
+        if(res.code===200 && res.data[0].password === md5(this.form.oldPassword)){
+          callback()
+        }else{
+          callback(new Error('旧密码不正确'));
+        }
+      })
+    };
+
+    let validateNewPassword = (rule,value,callback)=>{
+      if(value === this.form.password){
+        callback()
+      }else{
+        callback(new Error('两次输入密码不一致'))
+      }
+    };
     return{
-      user:JSON.parse(sessionStorage.getItem('CurUser'))
+      user:JSON.parse(sessionStorage.getItem('CurUser')),
+      form:{
+        id:'',
+        no:'',
+        oldPassword:'',
+        password:'',
+        password2:''
+      },
+      centerDialogVisible:false,
+      rules: {
+        oldPassword: [
+          {required: true, message: '请输入旧密码', trigger: 'blur'},
+          {min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur'},
+          {validator:checkPassword,trigger: 'blur'}
+        ],
+        password: [
+          {required: true, message: '请输入新密码', trigger: 'blur'},
+          {min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur'}
+        ],
+        password2: [
+          {required: true, message: '请再次输入新密码', trigger: 'blur'},
+          {min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur'},
+          {validator:validateNewPassword,trigger: 'blur'}
+        ]
+      }
     }
   },
   methods:{
@@ -31,7 +121,37 @@ export default {
       console.log("toUser")
       this.$router.push('/Home')
     },
+    EditPwd(){
+      console.log("EditPassword")
+      this.centerDialogVisible = true
+      this.$nextTick(()=>{
+        this.resetForm()
+      })
+    },
+    resetForm(){
+      this.$refs.form.resetFields()
+    },
+    saveMod(){
+      this.$axios.post(this.$httpUrl+'/user/savePwd',this.form).then(res=>res.data).then(res=>{
+        console.log(res)
+        if(res.code===200){
+          this.$message({
+            message: '操作成功！',
+            type: 'success'
+          });
+          this.centerDialogVisible = false
+          this.resetForm()
+          this.$router.push("/")
+          sessionStorage.clear()
+        }else{
+          this.$message({
+            message: '操作失败！',
+            type: 'error'
+          });
+        }
 
+      })
+    },
     logout(){
       console.log("logout")
       this.$confirm('您确定要退出登录吗?', '提示', {

@@ -177,13 +177,25 @@
         name: "GoodsManage",
         components: {SelectUser},
         data() {
-            let checkCount = (rule, value, callback) => {
+            let checkCountAdd = (rule, value, callback) => {
                 if(value>9999){
                     callback(new Error('数量输入过大'));
                 }else{
                     callback();
                 }
             };
+          let checkCountOut = (rule, value, callback) => {
+              //如果是入库，则按照新增的方式校验
+              if(this.form1.action === "1"){
+                checkCountAdd(rule,value,callback)
+              }else{  //如果是出库，则需校验是否超过库存
+                if(value > this.currentRow.count){
+                  callback(new Error('出库数量超过库存'))
+                }else{
+                  callback();
+                }
+              }
+          };
 
             return {
                 user : JSON.parse(sessionStorage.getItem('CurUser')),
@@ -221,7 +233,11 @@
                     action:'1'
                 },
                 rules1: {
-
+                    count:[
+                      {required: true, message: '请输入数量', trigger: 'blur'},
+                      {pattern: /^([1-9][0-9]*){1,4}$/,message: '数量必须为正整数字',trigger: "blur"},
+                      {validator:checkCountOut,trigger: 'blur'}
+                    ]
                 },
                 rules: {
                     name: [
@@ -236,7 +252,7 @@
                     count: [
                         {required: true, message: '请输入数量', trigger: 'blur'},
                         {pattern: /^([1-9][0-9]*){1,4}$/,message: '数量必须为正整数字',trigger: "blur"},
-                        {validator:checkCount,trigger: 'blur'}
+                        {validator:checkCountAdd,trigger: 'blur'}
                     ],
                 }
             }

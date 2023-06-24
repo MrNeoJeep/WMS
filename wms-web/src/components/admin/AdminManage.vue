@@ -35,7 +35,7 @@
               disable-transitions>{{scope.row.sex === 1 ? '男' : '女'}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="roleId" label="角色" width="120">
+      <el-table-column prop="roleId" label="角色" width="100">
         <template slot-scope="scope">
           <el-tag
               :type="scope.row.roleId === 0 ? 'danger' : (scope.row.roleId === 1 ? 'primary' : 'success')"
@@ -43,7 +43,7 @@
               (scope.row.roleId === 1 ? '管理员' : '用户')}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="phone" label="电话" width="180">
+      <el-table-column prop="phone" label="电话" width="150">
       </el-table-column>
       <el-table-column prop="operate" label="操作">
         <template slot-scope="scope">
@@ -68,6 +68,7 @@
         :total="total">
     </el-pagination>
 
+    <!--新增用户的表单-->
     <el-dialog
         title="提示"
         :visible.sync="centerDialogVisible"
@@ -109,7 +110,48 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="save">确 定</el-button>
+    <el-button type="primary" @click="saveAdd">确 定</el-button>
+  </span>
+    </el-dialog>
+
+    <!--编辑信息表单-->
+    <el-dialog
+        title="提示"
+        :visible.sync="centerDialogVisibleEdit"
+        width="30%"
+        center>
+
+      <el-form ref="form1" :rules="rules" :model="form1" label-width="80px">
+        <el-form-item label="账号" prop="no">
+          <el-col :span="20">
+            <el-input v-model="form1.no" readonly></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="名字" prop="name">
+          <el-col :span="20">
+            <el-input v-model="form1.name"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="年龄" prop="age">
+          <el-col :span="20">
+            <el-input v-model="form1.age"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-radio-group v-model="form1.sex">
+            <el-radio label="1">男</el-radio>
+            <el-radio label="0">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="电话" prop="phone">
+          <el-col :span="20">
+            <el-input v-model="form1.phone"></el-input>
+          </el-col>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisibleEdit = false">取 消</el-button>
+    <el-button type="primary" @click="saveMod">确 定</el-button>
   </span>
     </el-dialog>
   </div>
@@ -164,8 +206,17 @@ export default {
         password:'',
         age:'',
         phone:'',
-        sex:'0',
+        sex:'1',
         roleId:'1'
+      },
+      centerDialogVisibleEdit:false,
+      form1:{
+        id:'',
+        no:'',
+        name:'',
+        age:'',
+        phone:'',
+        sex:'0',
       },
       rules: {
         no: [
@@ -197,12 +248,15 @@ export default {
     resetForm() {
       this.$refs.form.resetFields();
     },
+    resetEditForm(){
+      this.$refs.form1.resetFields();
+    },
     del(id){
       console.log(id)
 
       this.$axios.get(this.$httpUrl+'/user/del?id='+id).then(res=>res.data).then(res=>{
         console.log(res)
-        if(res.code==200){
+        if(res.code===200){
 
           this.$message({
             message: '操作成功！',
@@ -221,17 +275,15 @@ export default {
     mod(row){
       console.log(row)
 
-      this.centerDialogVisible = true
+      this.centerDialogVisibleEdit = true
       this.$nextTick(()=>{
         //赋值到表单
-        this.form.id = row.id
-        this.form.no = row.no
-        this.form.name = row.name
-        this.form.password = ''
-        this.form.age = row.age +''
-        this.form.sex = row.sex +''
-        this.form.phone = row.phone
-        this.form.roleId = row.roleId
+        this.form1.id = row.id
+        this.form1.no = row.no
+        this.form1.name = row.name
+        this.form1.age = row.age +''
+        this.form1.sex = row.sex +''
+        this.form1.phone = row.phone
       })
     },
     add(){
@@ -264,7 +316,7 @@ export default {
       })
     },
     doMod(){
-      this.$axios.post(this.$httpUrl+'/user/update',this.form).then(res=>res.data).then(res=>{
+      this.$axios.post(this.$httpUrl+'/user/update',this.form1).then(res=>res.data).then(res=>{
         console.log(res)
         if(res.code==200){
 
@@ -272,9 +324,9 @@ export default {
             message: '操作成功！',
             type: 'success'
           });
-          this.centerDialogVisible = false
+          this.centerDialogVisibleEdit = false
           this.loadPost()
-          this. resetForm()
+          this.resetEditForm()
         }else{
           this.$message({
             message: '操作失败！',
@@ -284,13 +336,24 @@ export default {
 
       })
     },
-    save(){
+    saveAdd(){
       this.$refs.form.validate((valid) => {
         if (valid) {
-          if(this.form.id){
-            this.doMod();
-          }else{
+          if(!this.form.id){
             this.doSave();
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+
+    },
+    saveMod(){
+      this.$refs.form1.validate((valid) => {
+        if (valid) {
+          if(this.form1.id){
+            this.doMod();
           }
         } else {
           console.log('error submit!!');
@@ -330,7 +393,7 @@ export default {
         }
       }).then(res=>res.data).then(res=>{
         console.log(res)
-        if(res.code==200){
+        if(res.code===200){
           this.tableData=res.data
           this.total=res.total
         }else{
@@ -341,7 +404,6 @@ export default {
     }
   },
   beforeMount() {
-    //this.loadGet();
     this.loadPost()
   }
 }

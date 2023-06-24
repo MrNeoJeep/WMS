@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wms.common.QueryPageParam;
 import com.wms.common.Result;
+import com.wms.dto.PasswordForm;
 import com.wms.entity.Menu;
 import com.wms.entity.User;
 import com.wms.service.MenuService;
@@ -45,8 +46,19 @@ public class UserController {
     }
     @GetMapping("/findByNo")
     public Result findByNo(@RequestParam String no){
-        List list = userService.lambdaQuery().eq(User::getNo,no).list();
-        return list.size() > 0 ? Result.suc(list) : Result.fail();
+        List<User> list = userService.lambdaQuery().eq(User::getNo,no).list();
+        Long total = (long) list.size();
+        return list.size() > 0 ? Result.suc(list,total) : Result.fail();
+    }
+    @PostMapping("/checkPasswordByNo")
+    public Result checkPasswordByNo(@RequestBody PasswordForm passwordForm){
+        List<User> list = userService.lambdaQuery().eq(User::getNo, passwordForm.getNo()).list();
+        String pwd = list.get(0).getPassword();
+        if(pwd.equals(passwordForm.getOldPassword())){
+            return Result.suc();
+        }else{
+            return Result.fail();
+        }
     }
     //新增
     @PostMapping("/save")
@@ -55,9 +67,17 @@ public class UserController {
         user.setPassword(SecureUtil.md5(user.getPassword()));
         return userService.save(user)?Result.suc():Result.fail();
     }
+    @PostMapping("/savePwd")
+    public Result savePwd(@RequestBody PasswordForm passwordForm){
+        User user = new User();
+        user.setId(passwordForm.getId());
+        user.setPassword(SecureUtil.md5(passwordForm.getPassword()));
+        return userService.updateById(user)?Result.suc():Result.fail();
+    }
     //更新
     @PostMapping("/update")
     public Result update(@RequestBody User user){
+//        System.out.println("user = "+user);
         return userService.updateById(user)?Result.suc():Result.fail();
     }
     //删除
@@ -116,14 +136,7 @@ public class UserController {
         HashMap param = query.getParam();
         String name = (String)param.get("name");
         System.out.println("name==="+(String)param.get("name"));
-        /*System.out.println("no==="+(String)param.get("no"));*/
-        /*LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper();
-        lambdaQueryWrapper.eq(User::getName,user.getName());
 
-        return userService.list(lambdaQueryWrapper);*/
-
-//        System.out.println("num = "+query.getPageNum());
-//        System.out.println("pagesize = "+query.getPageSize());
 
         Page<User> page = new Page();
         page.setCurrent(query.getPageNum());
@@ -143,6 +156,7 @@ public class UserController {
     //分页查询
     @PostMapping("/listPageC1")
     public Result listPageC1(@RequestBody QueryPageParam query){
+
         HashMap param = query.getParam();
         String name = (String)param.get("name");
         String sex = (String)param.get("sex");
@@ -166,7 +180,7 @@ public class UserController {
             lambdaQueryWrapper.eq(User::getRoleId,roleId);
         }
 
-        //IPage result = userService.pageC(page);
+        //查询时不返回密码
         IPage result = userService.pageCC(page,lambdaQueryWrapper);
 
         System.out.println("total=="+result.getTotal());

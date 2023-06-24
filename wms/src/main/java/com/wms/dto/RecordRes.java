@@ -1,9 +1,10 @@
-package com.wms.entity;
+package com.wms.dto;
 
+import com.wms.entity.Record;
 import lombok.Data;
 
 @Data
-public class RecordRes extends  Record{
+public class RecordRes extends Record {
 
     private String username;
     private String adminname;
