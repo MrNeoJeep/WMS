@@ -1,6 +1,7 @@
 package com.wms.controller;
 
 
+import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -50,6 +51,8 @@ public class UserController {
     //新增
     @PostMapping("/save")
     public Result save(@RequestBody User user){
+        //MD5加密
+        user.setPassword(SecureUtil.md5(user.getPassword()));
         return userService.save(user)?Result.suc():Result.fail();
     }
     //更新
@@ -66,10 +69,10 @@ public class UserController {
     //登录
     @PostMapping("/login")
     public Result login(@RequestBody User user){
-        //TODO MD5加密验证
+        //MD5加密验证
         List list = userService.lambdaQuery()
                 .eq(User::getNo,user.getNo())
-                .eq(User::getPassword,user.getPassword()).list();
+                .eq(User::getPassword, SecureUtil.md5(user.getPassword())).list();
 
 
         if(list.size()>0){
