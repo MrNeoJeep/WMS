@@ -75,7 +75,7 @@
                             }else{
                                 this.confirm_disabled=false;
                                 // alert('校验失败，用户名或密码错误！');
-                                this.$message.error("校验失败，用户名或密码错误！")
+                                this.$message.error(res.msg)
                                 return false;
                             }
                         });

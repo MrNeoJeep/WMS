@@ -55,7 +55,13 @@
                     >
                         <el-button slot="reference" size="small" type="danger" >删除</el-button>
                     </el-popconfirm>
-                  <el-button size="small" type="primary" style="margin-left: 5px;" @click="mod(scope.row)">禁用</el-button>
+                  <el-button :type="scope.row.isValid === 'Y' ? 'primary':'danger'"
+                             size="small" style="margin-left: 5px;"
+                             @click="doAllow(scope.row)">
+                    <template #default v-if="scope.row.isValid === 'Y'">禁用</template>
+                    <template #default v-else>启用</template>
+                  </el-button>
+
                 </template>
             </el-table-column>
         </el-table>
@@ -209,7 +215,8 @@
                     age:'',
                     phone:'',
                     sex:'1',
-                    roleId:'2'
+                    roleId:'2',
+                    isValid:'Y'
                 },
                 centerDialogVisibleEdit:false,
                 form1:{
@@ -247,6 +254,29 @@
             }
         },
         methods:{
+            doAllow(row){
+                console.log(row)
+                if(row.isValid === 'Y'){
+                  row.isValid = 'N'
+                }else{
+                  row.isValid = 'Y'
+                }
+                this.$axios.get(this.$httpUrl + '/user/changeState?id='+row.id).then(res => res.data).then(res => {
+                    console.log(res)
+                    if(res.code === 200){
+                        this.$message({
+                          message: '操作成功！',
+                          type: 'success'
+                        });
+                    }else{
+                      this.$message({
+                        message: '操作失败！',
+                        type: 'error'
+                      });
+                    }
+                })
+
+            },
             resetForm() {
                 this.$refs.form.resetFields();
             },

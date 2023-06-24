@@ -37,7 +37,7 @@ public class UserController {
     private MenuService menuService;
 
     @GetMapping("/list")
-    public List<User> list(){
+    public List<User> list(int i){
         return userService.list();
     }
     @GetMapping("/hello")
@@ -101,9 +101,12 @@ public class UserController {
             HashMap res = new HashMap();
             res.put("user",user1);
             res.put("menu",menuList);
+            if(user1.getIsValid().equals("N")){
+                return Result.fail("您的账户已被禁用");
+            }
             return Result.suc(res);
         }
-        return Result.fail();
+        return Result.fail("校验失败，用户名或密码错误！");
     }
 
     //修改
@@ -186,6 +189,29 @@ public class UserController {
         System.out.println("total=="+result.getTotal());
 
         return Result.suc(result.getRecords(),result.getTotal());
+    }
+
+    @GetMapping("/changeState")
+    public Result changeState(@RequestParam String id){
+        List<User> list = userService.lambdaQuery().eq(User::getId,id).list();
+        if(list.size() > 0){
+            User user = list.get(0);
+            String isValid = user.getIsValid();
+            if(isValid.equals("Y")){
+                user.setIsValid("N");
+            }else{
+                user.setIsValid("Y");
+            }
+            boolean b = userService.updateById(user);
+            if(b){
+                return Result.suc();
+            }
+            else{
+                return Result.fail();
+            }
+        }else{
+            return Result.fail();
+        }
     }
 
 }
