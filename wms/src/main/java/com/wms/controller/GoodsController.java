@@ -47,7 +47,7 @@ public class GoodsController {
     public Result listPage(@RequestBody QueryPageParam query){
         HashMap param = query.getParam();
         String name = (String)param.get("name");
-        String goodstype = (String)param.get("goodstype");
+        String goodsType = (String)param.get("goodsType");
         String storage = (String)param.get("storage");
 
         Page<Goods> page = new Page();
@@ -58,8 +58,8 @@ public class GoodsController {
         if(StringUtils.isNotBlank(name) && !"null".equals(name)){
             lambdaQueryWrapper.like(Goods::getName,name);
         }
-        if(StringUtils.isNotBlank(goodstype) && !"null".equals(goodstype)){
-            lambdaQueryWrapper.eq(Goods::getGoodsType,goodstype);
+        if(StringUtils.isNotBlank(goodsType) && !"null".equals(goodsType)){
+            lambdaQueryWrapper.eq(Goods::getGoodsType,goodsType);
         }
         if(StringUtils.isNotBlank(storage) && !"null".equals(storage)){
             lambdaQueryWrapper.eq(Goods::getStorage,storage);

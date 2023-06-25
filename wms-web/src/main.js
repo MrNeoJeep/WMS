@@ -12,7 +12,8 @@ import store from "@/store";
 //添加axios，处理请求
 Vue.prototype.$axios = axios;
 //设置全局请求
-Vue.prototype.$httpUrl = 'http://localhost:8081';
+Vue.prototype.$httpUrl = 'http://localhost:8082';
+// Vue.prototype.$httpUrl = 'http://47.100.26.92:8082';
 
 Vue.config.productionTip = false;
 

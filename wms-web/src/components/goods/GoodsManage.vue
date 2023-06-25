@@ -473,6 +473,7 @@
                 this.goodsType=''
             },
             loadPost(){
+              console.log(this.goodsType)
                 this.$axios.post(this.$httpUrl+'/goods/listPage',{
                     pageSize:this.pageSize,
                     pageNum:this.pageNum,

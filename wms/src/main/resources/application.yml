@@ -1,12 +1,12 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/wms?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root
-    password: root
+  profiles:
+    active: dev
+  web:
+    resources:
+      static-locations: "classpath:/static/dist"
 
 
 Logging:

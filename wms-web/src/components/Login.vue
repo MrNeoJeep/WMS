@@ -97,12 +97,15 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: #B3C0D1;
+        /*background-color: #B3C0D1;*/
+      background-size: cover;
+      /*background-color: #B3C0D1;*/
+      background: #464646 url("../assets/loginBackground.jpg") no-repeat fixed center center;
     }
     .loginDiv {
         position: absolute;
         top: 50%;
-        left: 50%;
+        left: 80%;
         margin-top: -200px;
         margin-left: -250px;
         width: 450px;
