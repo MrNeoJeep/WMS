@@ -436,25 +436,34 @@
 
             },
             doInGoods(){
-                this.$axios.post(this.$httpUrl+'/record/save',this.form1).then(res=>res.data).then(res=>{
+              this.$refs.form1.validate((valid) =>{
+                if(valid){
+                  this.$axios.post(this.$httpUrl+'/record/save',this.form1).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code===200){
 
-                        this.$message({
-                            message: '操作成功！',
-                            type: 'success'
-                        });
-                        this.inDialogVisible = false
-                        this.loadPost()
-                        this.resetInForm()
+                      this.$message({
+                        message: '操作成功！',
+                        type: 'success'
+                      });
+                      this.inDialogVisible = false
+                      this.loadPost()
+                      this.resetInForm()
                     }else{
-                        this.$message({
-                            message: '操作失败！',
-                            type: 'error'
-                        });
+                      this.$message({
+                        message: '操作失败！',
+                        type: 'error'
+                      });
                     }
 
-                })
+                  })
+                }else{
+                  console.log('error submit!!');
+                  return false;
+                }
+
+              });
+
             },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
