@@ -41,95 +41,265 @@
 - `Docker`：使用Docker容器部署项目
 - `Git`：使用Github进行版本控制
 
-## 3、UI界面
+## 3、Docker部署
 
-### 3.1、登录
+### 3.1、前后端集成部署
 
-![image-20230627134641784](D:\Project\Java_Project\FutureScience\WMS\README.assets\image-20230627134641784.png)
+- **修改Vue.prototype.$httpUrl**
 
-### 3.2、个人中心
+vue项目文件下的main.js中（不同项目设置的位置不一定一样）
 
-![image-20230627134810243](D:\Project\Java_Project\FutureScience\WMS\README.assets\image-20230627134810243.png)
+```vue
+Vue.prototype.$httpUrl = 'http://{服务器ip}:{springboot端口号}';
+eg:
+Vue.prototype.$httpUrl = 'http://67.99.26.82:8081';
+```
 
-### 3.3、登出
+- **vue项目打包**
 
-![image-20230627134858701](D:\Project\Java_Project\FutureScience\WMS\README.assets\image-20230627134858701.png)
+vue项目目录下
 
-![image-20230627134925083](D:\Project\Java_Project\FutureScience\WMS\README.assets\image-20230627134925083.png)
+```vue
+npm run build
+```
 
-### 3.4、修改密码
+- **移动dist文件**
 
-![image-20230627135215716](D:\Project\Java_Project\FutureScience\WMS\README.assets\image-20230627135215716.png)
+将打包好的dist文件移动到springboot项目`resources/static`中
 
-### 3.5、管理员管理
+![image-20230625213804938](README.assets\image-20230625213804938.png)
 
-![image-20230627135244127](D:\Project\Java_Project\FutureScience\WMS\README.assets\image-20230627135244127.png)
+- **激活生产环境和配置静态资源目录**
 
-### 3.6、用户管理
+如图所示，激活生产环境，配置静态资源目录
+
+![image-20230625214121144](README.assets\image-20230625214121144.png)
+
+接着需要配置生成环境，例如mysql，redis的密码等。
+
+- **使用maven工具打包** 
+
+![image-20230625214253411](README.assets\image-20230625214253411.png)
+
+- **服务器端运行jar包**
+
+前台运行jar包
+
+```bash
+java -jar xxx.jar
+```
+
+后台运行jar包
+
+```bash
+nohup java -jar xxx.jar >msg.log 2>&1 &
+```
+
+
+
+### 3.2、利用Docker前后端分离部署
+
+- **配置nginx目录，这里在/root/nginx2 下配置**
+
+```bash
+[root@iZbp144worluc8frpn60arZ nginx2]# pwd
+/root/nginx2
+[root@iZbp144worluc8frpn60arZ ~]# cd nginx2
+[root@iZbp144worluc8frpn60arZ nginx2]# ll
+total 8
+drwxr-xr-x 6 root root 4096 Jun 27 19:52 html
+-rw-r--r-- 1 root root  550 Jun 26 16:02 nginx.conf
+```
+
+nginx.conf
+
+```bash
+#user  root;
+worker_processes  1;
+events {
+  worker_connections  1024;
+}
+http {
+  include       mime.types;
+  default_type  application/octet-stream;
+  sendfile        on;
+  keepalive_timeout  65;
+  server {
+      listen       80;
+      server_name  localhost;
+      location / {
+          root   /usr/share/nginx/html;
+          try_files $uri $uri/ /index.html last; # 别忘了这个哈
+          index  index.html index.htm;
+      }
+      error_page   500 502 503 504  /50x.html;
+      location = /50x.html {
+          root   html;
+      }
+  }
+}
+```
+
+html目录（将打包好的dist文件解压到这）
+
+```bash
+[root@iZbp144worluc8frpn60arZ nginx2]# cd html
+[root@iZbp144worluc8frpn60arZ html]# ll
+total 32
+drwxr-xr-x 2 root root 4096 Jun 27 19:52 css
+-rw-r--r-- 1 root root 4286 Jun 27 19:52 favicon.ico
+drwxr-xr-x 2 root root 4096 Jun 27 19:52 fonts
+drwxr-xr-x 2 root root 4096 Jun 27 19:52 img
+-rw-r--r-- 1 root root  670 Jun 27 19:52 index.html
+drwxr-xr-x 2 root root 4096 Jun 27 19:52 js
+-rw-r--r-- 1 root root 1524 Jun 27 19:52 logo.svg
+```
+
+- **利用docker-compose编排服务**
+
+Dockerfile文件
+
+```dockerfile
+FROM openjdk:8
+EXPOSE 8082
+ADD wms-0.0.1-SNAPSHOT.jar app.jar
+RUN bash -c 'touch /app.jar'
+ENTRYPOINT ["java", "-jar", "/app.jar", "--spring.profiles.active=prod"]
+```
+
+docker-compose.yml
+
+```yml
+version: "3"
+services:
+  nginx: # 服务名称，用户自定义
+    image: nginx:latest  # 镜像版本
+    ports:
+      - 80:80  # 暴露端口
+    volumes: # 挂载
+      - /root/nginx2/html:/usr/share/nginx/html
+      - /root/nginx2/nginx.conf:/etc/nginx/nginx.conf
+    privileged: true # 这个必须要，解决nginx的文件调用的权限问题
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment: # 指定用户root的密码
+      - MYSQL_ROOT_PASSWORD={password}
+    privileged: true
+  wms:
+    image: wms:latest
+    build: src # 表示以当前目录下的Dockerfile开始构建镜像
+    ports:
+      - 8082:8082
+    depends_on: # 依赖与mysql其实可以不填，默认已经表示可以
+      - mysql
+```
+
+如果使用云服务器，请注意在安全组中（或防火墙）开放相应端口
+
+- **组织WMS文件夹目录**
+
+```
+[root@iZbp144worluc8frpn60arZ WMS]# ls
+docker-compose.yml  Dockerfile  wms-0.0.1-SNAPSHOT.jar
+```
+
+- **运行docker-compose命令编排服务**
+
+```yml
+[root@iZbp144worluc8frpn60arZ WMS]# docker-compose up -d
+```
+
+如果服务正常启动，则可以通过ip访问网站。
+
+## 4、UI界面
+
+### 4.1、登录
+
+![image-20230627134641784](README.assets\image-20230627134641784.png)
+
+### 4.2、个人中心
+
+![image-20230627134810243](README.assets\image-20230627134810243.png)
+
+### 4.3、登出
+
+![image-20230627134858701](README.assets\image-20230627134858701.png)
+
+![image-20230627134925083](README.assets\image-20230627134925083.png)
+
+### 4.4、修改密码
+
+![image-20230627135215716](README.assets\image-20230627135215716.png)
+
+### 4.5、管理员管理
+
+![image-20230627135244127](README.assets\image-20230627135244127.png)
+
+### 4.6、用户管理
 
 #### 查询用户
 
-
+![image-20230627195815309](README.assets\image-20230627195815309.png)
 
 #### 新增用户
 
-
-
-#### 删除用户
+![image-20230627195930492](README.assets\image-20230627195930492.png)
 
 
 
 #### 禁用/启用用户
 
+![image-20230627200044266](README.assets\image-20230627200044266.png)
 
+#### 删除用户
 
-### 3.7、仓库管理
+![image-20230627200105526](README.assets\image-20230627200105526.png)
+
+### 4.7、仓库管理
 
 #### 查询仓库
 
-
+![image-20230627200154417](README.assets\image-20230627200154417.png)
 
 #### 新增仓库
 
-
+![image-20230627200321443](README.assets\image-20230627200321443.png)
 
 #### 编辑仓库
 
-
+![image-20230627200448292](README.assets\image-20230627200448292.png)
 
 #### 删除仓库
 
+![image-20230627200516006](README.assets\image-20230627200516006.png)
 
+### 4.8、物品分类管理
 
-### 3.8、物品分类管理
+![image-20230627200555776](README.assets\image-20230627200555776.png)
 
-
-
-### 3.9、物品管理
-
-#### 查询物品
-
-
+### 4.9、物品管理
 
 #### 新增物品
 
-
-
-#### 编辑物品
-
-
+![image-20230627200808807](README.assets\image-20230627200808807.png)
 
 #### 入库
 
+![image-20230627200846218](README.assets\image-20230627200846218.png)
 
+![image-20230627200907494](README.assets\image-20230627200907494.png)
+
+![image-20230627200927064](README.assets\image-20230627200927064.png)
 
 #### 出库
 
+![image-20230627201005221](README.assets\image-20230627201005221.png)
 
 
 
+### 4.10、记录管理
 
-### 3.10、记录管理
-
-
+![image-20230627201022058](README.assets\image-20230627201022058.png)
 
