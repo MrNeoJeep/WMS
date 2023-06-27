@@ -67,7 +67,7 @@ npm run build
 
 将打包好的dist文件移动到springboot项目`resources/static`中
 
-![image-20230625213804938](\README.assets\image-20230625213804938.png)
+![image-20230625213804938](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230625213804938.png)
 
 - **激活生产环境和配置静态资源目录**
 
