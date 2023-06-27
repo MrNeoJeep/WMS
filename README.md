@@ -41,7 +41,7 @@
 - `Docker`：使用Docker容器部署项目
 - `Git`：使用Github进行版本控制
 
-## 3、Docker部署
+## 3、部署
 
 ### 3.1、前后端集成部署
 
@@ -67,7 +67,7 @@ npm run build
 
 将打包好的dist文件移动到springboot项目`resources/static`中
 
-![image-20230625213804938](README.assets\image-20230625213804938.png)
+![image-20230625213804938](\README.assets\image-20230625213804938.png)
 
 - **激活生产环境和配置静态资源目录**
 
