@@ -73,13 +73,13 @@ npm run build
 
 如图所示，激活生产环境，配置静态资源目录
 
-![image-20230625214121144](README.assets\image-20230625214121144.png)
+![image-20230625214121144](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230625214121144.png)
 
 接着需要配置生成环境，例如mysql，redis的密码等。
 
 - **使用maven工具打包** 
 
-![image-20230625214253411](README.assets\image-20230625214253411.png)
+![image-20230625214253411](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230625214253411.png)
 
 - **服务器端运行jar包**
 
@@ -217,89 +217,89 @@ docker-compose.yml  Dockerfile  wms-0.0.1-SNAPSHOT.jar
 
 ### 4.1、登录
 
-![image-20230627134641784](README.assets\image-20230627134641784.png)
+![image-20230627134641784](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627134641784.png)
 
 ### 4.2、个人中心
 
-![image-20230627134810243](README.assets\image-20230627134810243.png)
+![image-20230627134810243](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627134810243.png)
 
 ### 4.3、登出
 
-![image-20230627134858701](README.assets\image-20230627134858701.png)
+![image-20230627134858701](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627134858701.png)
 
-![image-20230627134925083](README.assets\image-20230627134925083.png)
+![image-20230627134925083](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627134925083.png)
 
 ### 4.4、修改密码
 
-![image-20230627135215716](README.assets\image-20230627135215716.png)
+![image-20230627135215716](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627135215716.png)
 
 ### 4.5、管理员管理
 
-![image-20230627135244127](README.assets\image-20230627135244127.png)
+![image-20230627135244127](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627135244127.png)
 
 ### 4.6、用户管理
 
 #### 查询用户
 
-![image-20230627195815309](README.assets\image-20230627195815309.png)
+![image-20230627195815309](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627195815309.png)
 
 #### 新增用户
 
-![image-20230627195930492](README.assets\image-20230627195930492.png)
+![image-20230627195930492](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627195930492.png)
 
 
 
 #### 禁用/启用用户
 
-![image-20230627200044266](README.assets\image-20230627200044266.png)
+![image-20230627200044266](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200044266.png)
 
 #### 删除用户
 
-![image-20230627200105526](README.assets\image-20230627200105526.png)
+![image-20230627200105526](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200105526.png)
 
 ### 4.7、仓库管理
 
 #### 查询仓库
 
-![image-20230627200154417](README.assets\image-20230627200154417.png)
+![image-20230627200154417](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200154417.png)
 
 #### 新增仓库
 
-![image-20230627200321443](README.assets\image-20230627200321443.png)
+![image-20230627200321443](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200321443.png)
 
 #### 编辑仓库
 
-![image-20230627200448292](README.assets\image-20230627200448292.png)
+![image-20230627200448292](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200448292.png)
 
 #### 删除仓库
 
-![image-20230627200516006](README.assets\image-20230627200516006.png)
+![image-20230627200516006](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200516006.png)
 
 ### 4.8、物品分类管理
 
-![image-20230627200555776](README.assets\image-20230627200555776.png)
+![image-20230627200555776](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200555776.png)
 
 ### 4.9、物品管理
 
 #### 新增物品
 
-![image-20230627200808807](README.assets\image-20230627200808807.png)
+![image-20230627200808807](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200808807.png)
 
 #### 入库
 
-![image-20230627200846218](README.assets\image-20230627200846218.png)
+![image-20230627200846218](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200846218.png)
 
-![image-20230627200907494](README.assets\image-20230627200907494.png)
+![image-20230627200907494](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200907494.png)
 
-![image-20230627200927064](README.assets\image-20230627200927064.png)
+![image-20230627200927064](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627200927064.png)
 
 #### 出库
 
-![image-20230627201005221](README.assets\image-20230627201005221.png)
+![image-20230627201005221](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627201005221.png)
 
 
 
 ### 4.10、记录管理
 
-![image-20230627201022058](README.assets\image-20230627201022058.png)
+![image-20230627201022058](https://github.com/MrNeoJeep/WMS/blob/master/README.assets/image-20230627201022058.png)
 
