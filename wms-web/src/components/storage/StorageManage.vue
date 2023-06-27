@@ -71,6 +71,21 @@
     export default {
         name: "StorageManage",
         data() {
+          let checkName = (rule, value, callback) => {
+            if(this.form.id){
+              callback()
+            }else{
+              this.$axios.get(this.$httpUrl + "/storage/findByName?name="+value).then(res=>res.data).then(res => {
+                console.log(res)
+                if(res.code!=200){
+                  callback()
+                }else{
+                  callback(new Error('仓库已经存在'));
+                }
+              })
+            }
+
+          };
             return {
                 tableData: [],
                 pageSize:10,
@@ -85,7 +100,8 @@
                 },
                 rules: {
                     name: [
-                        {required: true, message: '请输入仓库名', trigger: 'blur'}
+                        {required: true, message: '请输入仓库名', trigger: 'blur'},
+                        {validator:checkName,trigger: 'blur'}
                     ]
                 }
             }
@@ -129,6 +145,7 @@
                 this.centerDialogVisible = true
                 this.$nextTick(()=>{
                     this.resetForm()
+                    this.form.id = ''
                 })
 
             },

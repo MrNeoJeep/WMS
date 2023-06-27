@@ -70,6 +70,15 @@ public class StorageController {
         return Result.suc(list);
     }
 
+    @GetMapping("/findByName")
+    public Result findByName(@RequestParam String name){
+        LambdaQueryWrapper<Storage> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Storage::getName,name);
+        List<Storage> list = storageService.list(lambdaQueryWrapper);
+        Long total = (long)list.size();
+        return list.size() > 0 ? Result.suc(list,total):Result.fail();
+    }
+
 
 
 }

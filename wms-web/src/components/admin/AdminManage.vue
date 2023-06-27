@@ -94,7 +94,7 @@
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-col :span="20">
-            <el-input v-model="form.password"></el-input>
+            <el-input type="password"  show-password autocomplete="off" v-model="form.password"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="年龄" prop="age">

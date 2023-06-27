@@ -71,6 +71,22 @@
     export default {
         name: "GoodstypeManage",
         data() {
+          let checkName = (rule, value, callback) => {
+            if(this.form.id){
+              callback()
+            }else{
+              this.$axios.get(this.$httpUrl + "/goodstype/findByName?name="+value).then(res=>res.data).then(res => {
+                console.log(res)
+                if(res.code!=200){
+                  callback()
+                }else{
+                  callback(new Error('物品类别已经存在'));
+                }
+              })
+            }
+
+          };
+
             return {
                 tableData: [],
                 pageSize:10,
@@ -85,7 +101,8 @@
                 },
                 rules: {
                     name: [
-                        {required: true, message: '请输入分类名', trigger: 'blur'}
+                        {required: true, message: '请输入分类名', trigger: 'blur'},
+                       {validator:checkName,trigger: 'blur'}
                     ]
                 }
             }
@@ -129,6 +146,7 @@
                 this.centerDialogVisible = true
                 this.$nextTick(()=>{
                     this.resetForm()
+                    this.form.id = ''
                 })
 
             },
@@ -143,7 +161,7 @@
                         });
                         this.centerDialogVisible = false
                         this.loadPost()
-                        this. resetForm()
+                        this.resetForm()
                     }else{
                         this.$message({
                             message: '操作失败！',
@@ -164,7 +182,7 @@
                         });
                         this.centerDialogVisible = false
                         this.loadPost()
-                        this. resetForm()
+                        this.resetForm()
                     }else{
                         this.$message({
                             message: '操作失败！',

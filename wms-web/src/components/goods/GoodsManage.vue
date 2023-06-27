@@ -196,6 +196,21 @@
                 }
               }
           };
+          let checkName = (rule, value, callback) => {
+            if(this.form.id){
+              callback()
+            }else{
+              this.$axios.get(this.$httpUrl + "/goods/findByName?name="+value).then(res=>res.data).then(res => {
+                console.log(res)
+                if(res.code!=200){
+                  callback()
+                }else{
+                  callback(new Error('物品已经存在'));
+                }
+              })
+            }
+
+          };
 
             return {
                 user : JSON.parse(sessionStorage.getItem('CurUser')),
@@ -241,7 +256,8 @@
                 },
                 rules: {
                     name: [
-                        {required: true, message: '请输入物品名', trigger: 'blur'}
+                        {required: true, message: '请输入物品名', trigger: 'blur'},
+                        {validator:checkName,trigger: 'blur'}
                     ],
                     storage:[
                         {required: true, message: '请选择仓库', trigger: 'blur'}

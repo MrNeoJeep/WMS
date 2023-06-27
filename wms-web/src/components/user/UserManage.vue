@@ -93,9 +93,9 @@
                         <el-input v-model="form.name"></el-input>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
+                <el-form-item label="密码"  prop="password">
                     <el-col :span="20">
-                        <el-input v-model="form.password"></el-input>
+                        <el-input type="password" show-password autocomplete="off" v-model="form.password"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="年龄" prop="age">
@@ -181,7 +181,6 @@
                 }
                 this.$axios.get(this.$httpUrl+"/user/findByNo?no="+this.form.no).then(res=>res.data).then(res=>{
                   console.log(res)
-                  console.log(res.data[0].password)
                   if(res.code!=200){
                         callback()
                     }else{
@@ -256,14 +255,14 @@
         methods:{
             doAllow(row){
                 console.log(row)
-                if(row.isValid === 'Y'){
+                if(row.isValid == 'Y'){
                   row.isValid = 'N'
                 }else{
                   row.isValid = 'Y'
                 }
                 this.$axios.get(this.$httpUrl + '/user/changeState?id='+row.id).then(res => res.data).then(res => {
                     console.log(res)
-                    if(res.code === 200){
+                    if(res.code == 200){
                         this.$message({
                           message: '操作成功！',
                           type: 'success'
@@ -288,7 +287,7 @@
 
                 this.$axios.get(this.$httpUrl+'/user/del?id='+id).then(res=>res.data).then(res=>{
                     console.log(res)
-                    if(res.code===200){
+                    if(res.code==200){
 
                         this.$message({
                             message: '操作成功！',
@@ -329,7 +328,7 @@
             doSave(){
                 this.$axios.post(this.$httpUrl+'/user/save',this.form).then(res=>res.data).then(res=>{
                     console.log(res)
-                    if(res.code===200){
+                    if(res.code==200){
 
                         this.$message({
                             message: '操作成功！',
@@ -350,7 +349,7 @@
             doMod(){
                 this.$axios.post(this.$httpUrl+'/user/update',this.form1).then(res=>res.data).then(res=>{
                     console.log(res)
-                    if(res.code===200){
+                    if(res.code==200){
 
                         this.$message({
                             message: '操作成功！',
@@ -425,7 +424,7 @@
                     }
                 }).then(res=>res.data).then(res=>{
                     console.log(res)
-                    if(res.code===200){
+                    if(res.code==200){
                         this.tableData=res.data
                         this.total=res.total
                     }else{

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wms.common.QueryPageParam;
 import com.wms.common.Result;
 import com.wms.entity.GoodsType;
+import com.wms.entity.Storage;
 import com.wms.service.GoodsTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -68,5 +69,13 @@ public class GoodsTypeController {
     public Result list(){
         List list = goodsTypeService.list();
         return Result.suc(list);
+    }
+    @GetMapping("/findByName")
+    public Result findByName(@RequestParam String name){
+        LambdaQueryWrapper<GoodsType> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(GoodsType::getName,name);
+        List<GoodsType> list = goodsTypeService.list(lambdaQueryWrapper);
+        Long total = (long)list.size();
+        return list.size() > 0 ? Result.suc(list,total):Result.fail();
     }
 }

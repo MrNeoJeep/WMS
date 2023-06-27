@@ -8,11 +8,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wms.common.QueryPageParam;
 import com.wms.common.Result;
 import com.wms.entity.Goods;
+import com.wms.entity.Storage;
 import com.wms.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -67,6 +69,15 @@ public class GoodsController {
 
         IPage result = goodsService.pageCC(page,lambdaQueryWrapper);
         return Result.suc(result.getRecords(),result.getTotal());
+    }
+
+    @GetMapping("/findByName")
+    public Result findByName(@RequestParam String name){
+        LambdaQueryWrapper<Goods> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Goods::getName,name);
+        List<Goods> list = goodsService.list(lambdaQueryWrapper);
+        Long total = (long)list.size();
+        return list.size() > 0 ? Result.suc(list,total):Result.fail();
     }
 
 }
