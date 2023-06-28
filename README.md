@@ -1,14 +1,11 @@
 # WMS(Warehouse Management System)
 
-![Static Badge](https://img.shields.io/badge/SpringBoot%20v2.7.5-%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6-blue)
-![Static Badge](https://img.shields.io/badge/MyBatisPlus%20v3.4.1-%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6-green)
-![Static Badge](https://img.shields.io/badge/Vue2-%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6-red)
-![Static Badge](https://img.shields.io/badge/Docker-%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2-blue)
-![](https://img.shields.io/badge/Git-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6-orange)
-![](https://img.shields.io/badge/maven-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86-yellowgreen)
-![](https://img.shields.io/badge/MD5-%E7%94%A8%E6%88%B7%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4-lightgrey)
-![](https://img.shields.io/badge/JSON-%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92-yellowgreen)
-<br>
+<div style="text-align: center;">
+
+![Static Badge](https://img.shields.io/badge/SpringBoot%20v2.7.5-%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6-blue)![Static Badge](https://img.shields.io/badge/MyBatisPlus%20v3.4.1-%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6-green)![Static Badge](https://img.shields.io/badge/Vue2-%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6-red)![Static Badge](https://img.shields.io/badge/Docker-%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2-blue)![Static Badge](https://img.shields.io/badge/Element%20UI-UI%E6%A1%86%E6%9E%B6-skyblue)![](https://img.shields.io/badge/Git-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6-orange)
+![](https://img.shields.io/badge/maven-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86-yellowgreen)![](https://img.shields.io/badge/MD5-%E7%94%A8%E6%88%B7%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4-lightgrey)![](https://img.shields.io/badge/JSON-%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92-yellowgreen)
+
+</div>
 
 ## 1、功能概述
 
@@ -34,12 +31,26 @@
 
 ## 2、技术栈
 
+### 前端
+
+- `Vue2`：采用Vue作为前端框架，本项目前后端分离
+- `Element-UI`:采用基于Vue的UI框架简化开发
+
+### 后端
+
 - `SpringBoot`：后端框架
 - `MyBatisPlus`：持久层框架
-- `Vue2`：采用Vue作为前端框架，本项目前后端分离
+
+### 安全策略
+
 - `MD5`：用户密码使用MD5加密
+
+### 部署
+
 - `Docker`：使用Docker容器部署项目
 - `Git`：使用Github进行版本控制
+
+
 
 ## 3、部署
 
