@@ -75,7 +75,7 @@
             if(this.form.id){
               callback()
             }else{
-              this.$axios.get(this.$httpUrl + "/goodstype/findByName?name="+value).then(res=>res.data).then(res => {
+              this.$axios.get(this.$httpUrl + '/goodstype/findByName?name='+value).then(res=>res.data).then(res => {
                 console.log(res)
                 if(res.code!=200){
                   callback()
@@ -101,8 +101,8 @@
                 },
                 rules: {
                     name: [
-                        {required: true, message: '请输入分类名', trigger: 'blur'},
-                       {validator:checkName,trigger: 'blur'}
+                        {required: true, message: '请输入分类名', trigger: 'blur'}
+                      , {validator:checkName,trigger: 'blur'}
                     ]
                 }
             }

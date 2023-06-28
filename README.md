@@ -213,6 +213,15 @@ docker-compose.yml  Dockerfile  wms-0.0.1-SNAPSHOT.jar
 
 如果服务正常启动，则可以通过ip访问网站。
 
+- **若后期项目有更新，则需要重新build**
+
+```bash
+docker-compose stop
+docker-compose up -d --build
+```
+
+
+
 ## 4、UI界面
 
 ### 4.1、登录

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wms.common.QueryPageParam;
 import com.wms.common.Result;
 import com.wms.entity.Storage;
+import com.wms.entity.User;
 import com.wms.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -72,9 +73,7 @@ public class StorageController {
 
     @GetMapping("/findByName")
     public Result findByName(@RequestParam String name){
-        LambdaQueryWrapper<Storage> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(Storage::getName,name);
-        List<Storage> list = storageService.list(lambdaQueryWrapper);
+        List<Storage> list = storageService.lambdaQuery().eq(Storage::getName,name).list();
         Long total = (long)list.size();
         return list.size() > 0 ? Result.suc(list,total):Result.fail();
     }

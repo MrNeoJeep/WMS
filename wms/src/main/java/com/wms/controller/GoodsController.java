@@ -73,9 +73,7 @@ public class GoodsController {
 
     @GetMapping("/findByName")
     public Result findByName(@RequestParam String name){
-        LambdaQueryWrapper<Goods> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(Goods::getName,name);
-        List<Goods> list = goodsService.list(lambdaQueryWrapper);
+        List<Goods> list = goodsService.lambdaQuery().eq(Goods::getName,name).list();
         Long total = (long)list.size();
         return list.size() > 0 ? Result.suc(list,total):Result.fail();
     }

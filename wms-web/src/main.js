@@ -13,7 +13,7 @@ import store from "@/store";
 Vue.prototype.$axios = axios;
 //设置全局请求
 Vue.prototype.$httpUrl = 'http://localhost:8082';
-// Vue.prototype.$httpUrl = '{address}';
+// Vue.prototype.$httpUrl = 'http://114.55.173.20:8082';
 
 Vue.config.productionTip = false;
 
