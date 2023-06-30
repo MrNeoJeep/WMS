@@ -16,7 +16,9 @@ public class Result {
     public static Result fail(String msg){
         return result(400,msg,0L,null);
     }
-
+    public static Result fail(int code, String message, Object data) {
+        return result(code,message,0L,data);
+    }
     public static Result suc(){
         return result(200,"成功",0L,null);
     }
@@ -37,5 +39,6 @@ public class Result {
         res.setTotal(total);
         return res;
     }
+
 
 }

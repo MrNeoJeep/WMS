@@ -187,6 +187,8 @@ services:
     environment: # 指定用户root的密码
       - MYSQL_ROOT_PASSWORD={password}
     privileged: true
+  redis:
+  	image: redis:latest
   wms:
     image: wms:latest
     build: src # 表示以当前目录下的Dockerfile开始构建镜像
@@ -194,6 +196,7 @@ services:
       - 8082:8082
     depends_on: # 依赖与mysql其实可以不填，默认已经表示可以
       - mysql
+      - redis
 ```
 
 如果使用云服务器，请注意在安全组中（或防火墙）开放相应端口

@@ -7,12 +7,14 @@ import axios from "axios";
 import VueRouter from "vue-router";
 import router from "@/router";
 import store from "@/store";
+import "./axios.js"
+import "./permission.js"
 
 
 //添加axios，处理请求
 Vue.prototype.$axios = axios;
 //设置全局请求
-Vue.prototype.$httpUrl = 'http://localhost:8082';
+// Vue.prototype.$httpUrl = 'http://localhost:8082';
 // Vue.prototype.$httpUrl = '{address}';
 
 Vue.config.productionTip = false;

@@ -197,15 +197,19 @@
               }
           };
           let checkName = (rule, value, callback) => {
-            if(this.form.id){
+            if(this.form.id || !this.form.name){
               callback()
             }else{
-              this.$axios.get(this.$httpUrl + "/goods/findByName?name="+value).then(res=>res.data).then(res => {
+              this.$axios.get( "/goods/findByName?name="+this.form.name+"&&storage="+value,{
+                headers: {
+                  "Authorization": localStorage.getItem("token")
+                }
+              }).then(res=>res.data).then(res => {
                 console.log(res)
                 if(res.code!=200){
                   callback()
                 }else{
-                  callback(new Error('物品已经存在'));
+                  callback(new Error('该仓库此物品已经存在'));
                 }
               })
             }
@@ -257,10 +261,11 @@
                 rules: {
                     name: [
                         {required: true, message: '请输入物品名', trigger: 'blur'},
-                        {validator:checkName,trigger: 'blur'}
+
                     ],
                     storage:[
-                        {required: true, message: '请选择仓库', trigger: 'blur'}
+                        {required: true, message: '请选择仓库', trigger: 'blur'},
+                        {validator:checkName,trigger: 'blur'}
                     ],
                     goodsType:[
                         {required: true, message: '请选择分类', trigger: 'blur'}
@@ -312,7 +317,11 @@
             del(id){
                 console.log(id)
 
-                this.$axios.get(this.$httpUrl+'/goods/del?id='+id).then(res=>res.data).then(res=>{
+                this.$axios.get('/goods/del?id='+id,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -395,7 +404,11 @@
                 this.innerVisible=true
             },
             doSave(){
-                this.$axios.post(this.$httpUrl+'/goods/save',this.form).then(res=>res.data).then(res=>{
+                this.$axios.post('/goods/save',this.form,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -416,7 +429,11 @@
                 })
             },
             doMod(){
-                this.$axios.post(this.$httpUrl+'/goods/update',this.form).then(res=>res.data).then(res=>{
+                this.$axios.post('/goods/update',this.form,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -454,7 +471,11 @@
             doInGoods(){
               this.$refs.form1.validate((valid) =>{
                 if(valid){
-                  this.$axios.post(this.$httpUrl+'/record/save',this.form1).then(res=>res.data).then(res=>{
+                  this.$axios.post('/record/save',this.form1,{
+                    headers: {
+                      "Authorization": localStorage.getItem("token")
+                    }
+                  }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code===200){
 
@@ -499,7 +520,7 @@
             },
             loadPost(){
               console.log(this.goodsType)
-                this.$axios.post(this.$httpUrl+'/goods/listPage',{
+                this.$axios.post('/goods/listPage',{
                     pageSize:this.pageSize,
                     pageNum:this.pageNum,
                     param:{
@@ -507,6 +528,10 @@
                         goodsType:this.goodsType+'',
                         storage:this.storage+''
                     }
+                },{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
                 }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
@@ -519,7 +544,11 @@
                 })
             },
             loadStorage(){
-                this.$axios.get(this.$httpUrl+'/storage/list').then(res=>res.data).then(res=>{
+                this.$axios.get('/storage/list',{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
                         this.storageData=res.data
@@ -530,7 +559,11 @@
                 })
             },
             loadGoodsType(){
-                this.$axios.get(this.$httpUrl+'/goodstype/list').then(res=>res.data).then(res=>{
+                this.$axios.get('/goodstype/list',{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
                         this.goodsTypeData=res.data

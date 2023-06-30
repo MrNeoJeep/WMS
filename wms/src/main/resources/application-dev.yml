@@ -4,6 +4,10 @@ spring:
     url: jdbc:mysql://localhost:3306/wms?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: root
+shiro-redis:
+  enabled: true
+  redis-manager:
+    host: 127.0.0.1:6379
 
 
 

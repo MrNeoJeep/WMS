@@ -10,6 +10,7 @@ import com.wms.common.Result;
 import com.wms.entity.GoodsType;
 import com.wms.entity.Storage;
 import com.wms.service.GoodsTypeService;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,21 +33,25 @@ public class GoodsTypeController {
     private GoodsTypeService goodsTypeService;
 
     //新增
+    @RequiresAuthentication
     @PostMapping("/save")
     public Result save(@RequestBody GoodsType goodsType){
         return goodsTypeService.save(goodsType)?Result.suc():Result.fail();
     }
     //更新
+    @RequiresAuthentication
     @PostMapping("/update")
     public Result update(@RequestBody GoodsType goodsType){
         return goodsTypeService.updateById(goodsType)?Result.suc():Result.fail();
     }
     //删除
+    @RequiresAuthentication
     @GetMapping("/del")
     public Result del(@RequestParam String id){
         return goodsTypeService.removeById(id)?Result.suc():Result.fail();
     }
 
+    @RequiresAuthentication
     @PostMapping("/listPage")
     public Result listPage(@RequestBody QueryPageParam query){
         HashMap param = query.getParam();
@@ -65,11 +70,14 @@ public class GoodsTypeController {
         return Result.suc(result.getRecords(),result.getTotal());
     }
 
+    @RequiresAuthentication
     @GetMapping("/list")
     public Result list(){
         List list = goodsTypeService.list();
         return Result.suc(list);
     }
+
+    @RequiresAuthentication
     @GetMapping("/findByName")
     public Result findByName(@RequestParam String name){
         LambdaQueryWrapper<GoodsType> lambdaQueryWrapper = new LambdaQueryWrapper<>();

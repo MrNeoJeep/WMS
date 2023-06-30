@@ -11,6 +11,7 @@ import com.wms.entity.Goods;
 import com.wms.entity.Record;
 import com.wms.service.GoodsService;
 import com.wms.service.RecordService;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +39,8 @@ public class RecordController {
 
     @Autowired
     private GoodsService goodsService;
+
+    @RequiresAuthentication
     @PostMapping("/listPage")
     public Result listPage(@RequestBody QueryPageParam query){
         HashMap param = query.getParam();
@@ -74,6 +77,7 @@ public class RecordController {
         return Result.suc(result.getRecords(),result.getTotal());
     }
     //新增
+    @RequiresAuthentication
     @PostMapping("/save")
     public Result save(@RequestBody Record record){
         Goods goods = goodsService.getById(record.getGoods());

@@ -31,7 +31,9 @@ function addNewRoute(menuList) {
 }
 export default new Vuex.Store({
     state: {
-        menu: []
+        menu: [],
+        token: '',
+        userInfo: JSON.parse(sessionStorage.getItem("userInfo"))
     },
     mutations: {
         setMenu(state,menuList) {
@@ -41,11 +43,31 @@ export default new Vuex.Store({
         },
         setRouter(state,menuList) {
             addNewRoute(menuList)
+        },
+        //set
+        SET_TOKEN: (state,token) => {
+            state.token = token
+            localStorage.setItem("token",token)
+        },
+        SET_USERINFO: (state,userInfo) => {
+            state.userInfo = userInfo
+            //session只能存字符串，所以需要将userInfo序列化
+            sessionStorage.setItem("userInfo",JSON.stringify(userInfo))
+        },
+        REMOVE_INFO: (state) => {
+            state.token = ''
+            state.userInfo = {}
+            localStorage.setItem("token",'')
+            sessionStorage.setItem("userInfo",JSON.stringify(''))
         }
     },
     getters: {
         getMenu(state) {
             return state.menu
+        },
+        //get
+        getUser: (state) => {
+            return state.userInfo
         }
     },
     plugins:[createPersistedState()]

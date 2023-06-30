@@ -9,13 +9,17 @@ const routes = [
     {
         path:'/Index',
         name:'index',
+        meta:{
+            requireAuth: true
+        },
         component:()=>import('../components/Index'),
         children:[
             {
                 path:'/Home',
                 name:'home',
                 meta:{
-                    title:'首页'
+                    title:'首页',
+                    requireAuth: true
                 },
                 component:()=>import('../components/Home')
             },

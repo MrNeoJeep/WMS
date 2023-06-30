@@ -75,7 +75,11 @@
             if(this.form.id){
               callback()
             }else{
-              this.$axios.get(this.$httpUrl + "/storage/findByName?name="+value).then(res=>res.data).then(res => {
+              this.$axios.get( "/storage/findByName?name="+value,{
+                headers: {
+                  "Authorization": localStorage.getItem("token")
+                }
+              }).then(res=>res.data).then(res => {
                 console.log(res)
                 if(res.code!=200){
                   callback()
@@ -113,7 +117,11 @@
             del(id){
                 console.log(id)
 
-                this.$axios.get(this.$httpUrl+'/storage/del?id='+id).then(res=>res.data).then(res=>{
+                this.$axios.get('/storage/del?id='+id,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -150,7 +158,11 @@
 
             },
             doSave(){
-                this.$axios.post(this.$httpUrl+'/storage/save',this.form).then(res=>res.data).then(res=>{
+                this.$axios.post('/storage/save',this.form,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -171,7 +183,11 @@
                 })
             },
             doMod(){
-                this.$axios.post(this.$httpUrl+'/storage/update',this.form).then(res=>res.data).then(res=>{
+                this.$axios.post('/storage/update',this.form,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -221,12 +237,16 @@
                 this.name=''
             },
             loadPost(){
-                this.$axios.post(this.$httpUrl+'/storage/listPage',{
+                this.$axios.post('/storage/listPage',{
                     pageSize:this.pageSize,
                     pageNum:this.pageNum,
                     param:{
                         name:this.name
                     }
+                },{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
                 }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
