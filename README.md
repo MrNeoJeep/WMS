@@ -55,7 +55,8 @@
 
 ### 3.1、前后端集成部署
 
-- **修改Vue.prototype.$httpUrl**
+
+- **修改Vue.prototype.$httpUrl  （未使用axios全局拦截器）**
 
 vue项目文件下的main.js中（不同项目设置的位置不一定一样）
 
@@ -64,7 +65,10 @@ Vue.prototype.$httpUrl = 'http://{服务器ip}:{springboot端口号}';
 eg:
 Vue.prototype.$httpUrl = 'http://67.99.26.82:8081';
 ```
-
+- **修改axios.defaults.baseURL（使用axios全局拦截器）**
+```vue
+axios.defaults.baseURL="http://{服务器ip}:{端口号}"
+```
 - **vue项目打包**
 
 vue项目目录下
