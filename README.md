@@ -1,19 +1,16 @@
 # WMS(Warehouse Management System)
 
 ![Static Badge](https://img.shields.io/badge/SpringBoot%20v2.7.5-%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6-blue)
-
 ![Static Badge](https://img.shields.io/badge/MyBatisPlus%20v3.4.1-%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6-green)
-
 ![Static Badge](https://img.shields.io/badge/Vue2-%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6-red)
-
+![Static Badge](https://img.shields.io/badge/Element%20UI-%E7%BB%84%E4%BB%B6%E5%BA%93-skyblue)
+![Static Badge](https://img.shields.io/badge/MySql-%E6%95%B0%E6%8D%AE%E5%BA%93-orange)
+![Static Badge](https://img.shields.io/badge/Redis-%E7%BC%93%E5%AD%98-red)
 ![Static Badge](https://img.shields.io/badge/Docker-%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2-blue)
-
 ![](https://img.shields.io/badge/Git-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6-orange)
-
 ![](https://img.shields.io/badge/maven-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86-yellowgreen)
-
 ![](https://img.shields.io/badge/MD5-%E7%94%A8%E6%88%B7%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4-lightgrey)
-
+![Static Badge](https://img.shields.io/badge/Shiro-%E5%AE%89%E5%85%A8%E6%A0%A1%E9%AA%8C-blue)
 ![](https://img.shields.io/badge/JSON-%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92-yellowgreen)
 
 <br>
