@@ -122,7 +122,11 @@
                 this.goodsType=''
             },
             loadStorage(){
-                this.$axios.get(this.$httpUrl+'/storage/list').then(res=>res.data).then(res=>{
+                this.$axios.get('/storage/list',{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
                         this.storageData=res.data
@@ -133,7 +137,11 @@
                 })
             },
             loadGoodsType(){
-                this.$axios.get(this.$httpUrl+'/goodstype/list').then(res=>res.data).then(res=>{
+                this.$axios.get('/goodstype/list',{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
                         this.goodsTypeData=res.data
@@ -144,7 +152,7 @@
                 })
             },
             loadPost(){
-                this.$axios.post(this.$httpUrl+'/record/listPage',{
+                this.$axios.post('/record/listPage',{
                     pageSize:this.pageSize,
                     pageNum:this.pageNum,
                     param:{
@@ -154,6 +162,10 @@
                         roleId:this.user.roleId+'',
                         userId:this.user.id+''
                     }
+                },{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
                 }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){

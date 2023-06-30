@@ -10,6 +10,7 @@ import com.wms.common.Result;
 import com.wms.entity.Storage;
 import com.wms.entity.User;
 import com.wms.service.StorageService;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,21 +33,25 @@ public class StorageController {
     private StorageService storageService;
 
     //新增
+    @RequiresAuthentication
     @PostMapping("/save")
     public Result save(@RequestBody Storage storage){
         return storageService.save(storage)?Result.suc():Result.fail();
     }
     //更新
+    @RequiresAuthentication
     @PostMapping("/update")
     public Result update(@RequestBody Storage storage){
         return storageService.updateById(storage)?Result.suc():Result.fail();
     }
     //删除
+    @RequiresAuthentication
     @GetMapping("/del")
     public Result del(@RequestParam String id){
         return storageService.removeById(id)?Result.suc():Result.fail();
     }
 
+    @RequiresAuthentication
     @PostMapping("/listPage")
     public Result listPage(@RequestBody QueryPageParam query){
         HashMap param = query.getParam();
@@ -65,12 +70,14 @@ public class StorageController {
         return Result.suc(result.getRecords(),result.getTotal());
     }
 
+    @RequiresAuthentication
     @GetMapping("/list")
     public Result list(){
         List list = storageService.list();
         return Result.suc(list);
     }
 
+    @RequiresAuthentication
     @GetMapping("/findByName")
     public Result findByName(@RequestParam String name){
         List<Storage> list = storageService.lambdaQuery().eq(Storage::getName,name).list();

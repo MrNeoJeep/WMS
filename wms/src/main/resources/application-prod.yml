@@ -6,5 +6,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql:3306/wms?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
-    password: '{your password}'
-
+    password: ''
+shiro-redis:
+  enabled: true
+  redis-manager:
+    host: redis:6379

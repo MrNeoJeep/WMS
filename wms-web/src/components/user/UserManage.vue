@@ -179,7 +179,11 @@
                 if(this.form.id){
                     return callback();
                 }
-                this.$axios.get(this.$httpUrl+"/user/findByNo?no="+this.form.no).then(res=>res.data).then(res=>{
+                this.$axios.get("/user/findByNo?no="+this.form.no,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                   console.log(res)
                   if(res.code!=200){
                         callback()
@@ -260,7 +264,11 @@
                 }else{
                   row.isValid = 'Y'
                 }
-                this.$axios.get(this.$httpUrl + '/user/changeState?id='+row.id).then(res => res.data).then(res => {
+                this.$axios.get('/user/changeState?id='+row.id,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res => res.data).then(res => {
                     console.log(res)
                     if(res.code == 200){
                         this.$message({
@@ -285,7 +293,11 @@
             del(id){
                 console.log(id)
 
-                this.$axios.get(this.$httpUrl+'/user/del?id='+id).then(res=>res.data).then(res=>{
+                this.$axios.get('/user/del?id='+id,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -326,7 +338,11 @@
 
             },
             doSave(){
-                this.$axios.post(this.$httpUrl+'/user/save',this.form).then(res=>res.data).then(res=>{
+                this.$axios.post('/user/save',this.form,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -347,7 +363,11 @@
                 })
             },
             doMod(){
-                this.$axios.post(this.$httpUrl+'/user/update',this.form1).then(res=>res.data).then(res=>{
+                this.$axios.post('/user/update',this.form1,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -405,7 +425,11 @@
                 this.loadPost()
             },
             loadGet(){
-                this.$axios.get(this.$httpUrl+'/user/list').then(res=>res.data).then(res=>{
+                this.$axios.get('/user/list',{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                 })
             },
@@ -414,7 +438,7 @@
                 this.sex=''
             },
             loadPost(){
-                this.$axios.post(this.$httpUrl+'/user/listPageC1',{
+                this.$axios.post('/user/listPageC1',{
                     pageSize:this.pageSize,
                     pageNum:this.pageNum,
                     param:{
@@ -422,6 +446,10 @@
                         sex:this.sex,
                         roleId:'2'
                     }
+                },{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
                 }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){

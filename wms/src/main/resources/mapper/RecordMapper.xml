@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wms.mapper.RecordMapper">
 
-    <select id="pageCC" resultType="com.wms.dto.RecordRes">
+    <select id="pageCC" resultType="com.wms.common.dto.RecordRes">
         select a.*,b.name goodsname,c.name storagename,d.name goodstypename,
                (select u.name from user u where u.id=a.userid)username,
                (select u.name from user u where u.id=a.admin_id)adminname

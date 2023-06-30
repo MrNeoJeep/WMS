@@ -8,6 +8,13 @@ spring:
     resources:
       static-locations: "classpath:/static/dist"
 
+wms:
+  jwt:
+    #密钥
+    secret: f4e5s5iu9e8f9wj84b3b38b3s83dj303n201md6
+    #token 7天 单位为秒
+    expire: 604800
+    header: Authorization
 
 Logging:
   level:

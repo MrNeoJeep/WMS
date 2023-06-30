@@ -75,7 +75,11 @@
             if(this.form.id){
               callback()
             }else{
-              this.$axios.get(this.$httpUrl + '/goodstype/findByName?name='+value).then(res=>res.data).then(res => {
+              this.$axios.get( "/goodstype/findByName?name="+value,{
+                headers: {
+                  "Authorization": localStorage.getItem("token")
+                }
+              }).then(res=>res.data).then(res => {
                 console.log(res)
                 if(res.code!=200){
                   callback()
@@ -101,8 +105,8 @@
                 },
                 rules: {
                     name: [
-                        {required: true, message: '请输入分类名', trigger: 'blur'}
-                      , {validator:checkName,trigger: 'blur'}
+                        {required: true, message: '请输入分类名', trigger: 'blur'},
+                       {validator:checkName,trigger: 'blur'}
                     ]
                 }
             }
@@ -114,7 +118,11 @@
             del(id){
                 console.log(id)
 
-                this.$axios.get(this.$httpUrl+'/goodstype/del?id='+id).then(res=>res.data).then(res=>{
+                this.$axios.get('/goodstype/del?id='+id,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -151,7 +159,11 @@
 
             },
             doSave(){
-                this.$axios.post(this.$httpUrl+'/goodstype/save',this.form).then(res=>res.data).then(res=>{
+                this.$axios.post('/goodstype/save',this.form,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -172,7 +184,11 @@
                 })
             },
             doMod(){
-                this.$axios.post(this.$httpUrl+'/goodstype/update',this.form).then(res=>res.data).then(res=>{
+                this.$axios.post('/goodstype/update',this.form,{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){
 
@@ -222,12 +238,16 @@
                 this.name=''
             },
             loadPost(){
-                this.$axios.post(this.$httpUrl+'/goodstype/listPage',{
+                this.$axios.post('/goodstype/listPage',{
                     pageSize:this.pageSize,
                     pageNum:this.pageNum,
                     param:{
                         name:this.name
                     }
+                },{
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
                 }).then(res=>res.data).then(res=>{
                     console.log(res)
                     if(res.code==200){

@@ -70,7 +70,11 @@ export default {
       this.form.id = this.user.id
       this.form.no = this.user.no
       this.form.oldPassword = value
-      this.$axios.get(this.$httpUrl+"/user/findByNo?no="+this.form.no).then(res=>res.data).then(res=>{
+      this.$axios.get("/user/findByNo?no="+this.form.no,{
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        }
+      }).then(res=>res.data).then(res=>{
         console.log(res)
 
         if(res.code===200 && res.data[0].password === md5(this.form.oldPassword)){
@@ -132,7 +136,11 @@ export default {
       this.$refs.form.resetFields()
     },
     saveMod(){
-      this.$axios.post(this.$httpUrl+'/user/savePwd',this.form).then(res=>res.data).then(res=>{
+      this.$axios.post('/user/savePwd',this.form,{
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        }
+      }).then(res=>res.data).then(res=>{
         console.log(res)
         if(res.code===200){
           this.$message({
@@ -161,13 +169,29 @@ export default {
 
       })
           .then(() => {
-            this.$message({
-              type:'success',
-              message:'退出登录成功'
+            //向后端发起logout请求
+
+            this.$axios.get('/user/logout',{
+              headers: {
+                "Authorization": localStorage.getItem("token")
+              }
+            }).then(res=>res.data).then(res => {
+              if(res.code == 200){
+
+                this.$store.commit("REMOVE_INFO")
+                this.$router.push("/login")
+                this.$message({
+                  type:'success',
+                  message:'退出登录成功'
+                })
+
+                this.$router.push("/")
+                sessionStorage.clear()
+              }else{
+                this.$message.error("退出登录失败")
+              }
             })
 
-            this.$router.push("/")
-            sessionStorage.clear()
           })
           .catch(() => {
             this.$message({
@@ -182,6 +206,11 @@ export default {
   },
   created() {
     this.$router.push('/Home')
+    console.log(this.$store.getters.getUser)
+    if(this.$store.getters.getUser.name){
+      this.user = this.$store.getters.getUser
+    }
+
   },
   props:{
     icon:String
